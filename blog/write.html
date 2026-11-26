@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-mode="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>写文章 · Yao Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/blog.css">
+<link rel="stylesheet" href="../admin/css/admin.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%237c6cff'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='800' fill='white' text-anchor='middle'>W</text></svg>">
+</head>
+<body>
+<div class="blog-bg"></div>
+
+<div class="shell">
+  <nav class="nav-bar">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">B</div>
+      <div>Yao Blog</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">文章</a>
+      <a href="../index.html">个人主页</a>
+      <div id="user-slot"></div>
+    </div>
+  </nav>
+
+  <header class="hero" style="padding:14px 4px 22px">
+    <h1 style="font-size:clamp(26px,4vw,38px)">写文章</h1>
+    <p style="font-size:15px">登录后即可发表你的文章，支持 Markdown 排版与实时预览。</p>
+  </header>
+
+  <main id="write-root">
+    <div class="editor-card">
+      <div class="row-between" style="margin-bottom:18px">
+        <h2 id="form-title" style="font-size:19px;font-weight:750">写文章</h2>
+        <div class="row">
+          <button class="btn btn-sm" id="btn-preview">预览</button>
+          <button class="btn btn-sm btn-primary" id="btn-publish">发布文章</button>
+        </div>
+      </div>
+
+      <div class="editor-grid">
+        <div>
+          <label class="lbl">标题</label>
+          <input class="field" id="f-title" placeholder="文章标题">
+        </div>
+        <div>
+          <label class="lbl">链接标识 (slug)</label>
+          <input class="field" id="f-slug" placeholder="my-post">
+        </div>
+        <div>
+          <label class="lbl">日期</label>
+          <input class="field" id="f-date" type="date">
+        </div>
+        <div>
+          <label class="lbl">标签（逗号分隔）</label>
+          <input class="field" id="f-tags" placeholder="随笔, 技术">
+        </div>
+        <div>
+          <label class="lbl">封面色</label>
+          <input class="field" id="f-cover" type="color" value="#7c6cff" style="height:44px;padding:4px">
+        </div>
+        <div>
+          <label class="lbl">摘要</label>
+          <input class="field" id="f-excerpt" placeholder="一两句话介绍这篇文章">
+        </div>
+        <div class="full">
+          <label class="lbl">正文 (Markdown)</label>
+          <textarea class="md-input" id="f-content" placeholder="## 开始写作&#10;&#10;支持标题、列表、代码块、引用、表格、粗斜体、链接、图片……"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-reset">清空 / 新建</button>
+      </div>
+
+      <div class="preview-pane" id="preview-pane"></div>
+    </div>
+
+    <div class="editor-card" style="margin-top:18px">
+      <h2 style="font-size:17px;font-weight:750;margin-bottom:8px">我的文章</h2>
+      <div id="mine-list"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div>© <span id="year">2026</span> Yao Space · <a href="index.html">博客首页</a></div>
+  </footer>
+</div>
+
+<script src="../config.js"></script>
+<script src="js/markdown.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/account.js"></script>
+<script src="js/write.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  try {
+    const p = JSON.parse(localStorage.getItem('yao-space-prefs') || '{}');
+    if (p.mode === 'light' || p.mode === 'dark') document.documentElement.dataset.mode = p.mode;
+    else if (p.mode === 'auto' && matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.mode = 'light';
+    if (p.accent) document.documentElement.dataset.accent = p.accent;
+  } catch (e) {}
+</script>
+</body>
+</html>

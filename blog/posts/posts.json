@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "hello-world",
+    "title": "你好，世界 —— 我的博客开张了",
+    "date": "2026-11-01",
+    "tags": ["随笔", "博客"],
+    "cover": "#7c6cff",
+    "excerpt": "终于把个人博客搭起来了。这一篇用来记录开张的心情，也简单聊聊这个博客的技术选型与未来计划。",
+    "content": "## 开张啦\n\n欢迎来到我的博客！这里是 **Yao Space** 的一部分。\n\n做这个博客的初衷很简单：\n\n1. 想有一个属于自己的写作角落\n2. 把学到的东西沉淀下来\n3. 分享一些折腾过程中的经验\n\n### 技术选型\n\n这个博客采用纯静态方案：\n\n| 部分 | 技术 |\n| --- | --- |\n| 页面 | 原生 HTML / CSS / JS |\n| 样式 | 玻璃拟态 + 动态背景 |\n| 文章 | Markdown + JSON 索引 |\n\n没有构建步骤，没有依赖，丢到任意静态服务器就能跑。\n\n> 「简单可维护」比「酷炫但复杂」更重要。\n\n### 未来计划\n\n- [ ] 增加评论系统\n- [ ] 支持 RSS\n- [ ] 加入文章目录（TOC）\n\n感谢你的阅读！\n"
+  },
+  {
+    "slug": "build-personal-site",
+    "title": "如何搭建一个可配置的个人主页",
+    "date": "2026-11-08",
+    "tags": ["教程", "前端"],
+    "cover": "#14b8a6",
+    "excerpt": "从需求拆解到文件结构，一步步讲解个人主页的设计与实现：三页导航、动态背景、可切换搜索引擎、天气与音乐播放器。",
+    "content": "## 需求拆解\n\n一个好用的个人主页，通常包含这几块：\n\n1. **个人信息** —— 我是谁、在做什么\n2. **搜索** —— 日常入口，最好可切换引擎\n3. **天气** —— 一眼看到今天的温度\n4. **音乐** —— 陪伴摸鱼的背景音\n5. **快捷方式** —— 常去的网站\n\n## 文件结构\n\n```\n├── index.html        # 主页（三页切换）\n├── config.js         # 全局配置\n├── css/              # 样式\n├── js/               # 逻辑\n├── blog/             # 个人博客\n└── admin/            # 文章发布站\n```\n\n## 可配置性\n\n所有用户相关的信息（名字、简介、搜索引擎、歌单、快捷方式）都集中在 `config.js`：\n\n```js\nwindow.SITE_CONFIG = {\n  user: { name: '王垚', ... },\n  searchEngines: [ ... ],\n  music: { tracks: [ ... ] }\n};\n```\n\n部署到服务器后，只需要改这一个文件。\n\n## 设计原则\n\n- **玻璃拟态**：卡片半透明 + 背景模糊，让背景动效透出来\n- **底部导航**：拇指可达，切换即时\n- **本地存储**：设置与快捷方式存在浏览器里，无需后端\n"
+  },
+  {
+    "slug": "dynamic-background",
+    "title": "四种 Canvas 动态背景的实现思路",
+    "date": "2026-11-15",
+    "tags": ["前端", "Canvas", "动效"],
+    "cover": "#f43f5e",
+    "excerpt": "极光、星河、粒子、流体渐变——用 Canvas 2D 实现四种网页动态背景，附性能优化与降级策略。",
+    "content": "## 为什么需要动态背景\n\n静态背景看久了会腻，动态背景能给页面带来「活着」的感觉。但要注意：\n\n> 动效是调味品，不是主菜。绝不能抢了内容的注意力。\n\n## 四种方案\n\n### 1. 极光（Aurora）\n\n多个径向渐变光斑缓慢漂移，叠加一层横向光带。\n\n```js\nconst rg = ctx.createRadialGradient(bx, by, 0, bx, by, rad);\nrg.addColorStop(0, 'rgba(124,108,255,.55)');\nrg.addColorStop(1, 'rgba(0,0,0,0)');\n```\n\n### 2. 星河（Stars）\n\n大量小圆点闪烁 + 低速下落，配几团星云。\n\n### 3. 粒子（Particles）\n\n粒子自由运动，距离近时连线，形成「星座」效果。\n\n### 4. 流体渐变（Gradient）\n\n用两个正交方向的时间函数移动渐变端点，色彩缓慢变化。\n\n## 性能优化\n\n- `devicePixelRatio` 上限设为 2，防止高分屏过度绘制\n- 粒子数量按屏幕面积自适应\n- 页面不可见时 `cancelAnimationFrame` 停止渲染\n- 尊重 `prefers-reduced-motion`\n\n## 降级策略\n\n低性能设备或省电模式下，回退为纯色或静态渐变背景。\n"
+  },
+  {
+    "slug": "markdown-workflow",
+    "title": "我的 Markdown 写作与发布工作流",
+    "date": "2026-11-18",
+    "tags": ["工具", "写作"],
+    "cover": "#f59e0b",
+    "excerpt": "用发布站写文章、预览效果、导出 JSON 与 Markdown，再同步到静态站点。简单、可靠、无后端依赖。",
+    "content": "## 工作流总览\n\n```\n写作（发布站） → 导出 posts.json / .md → 放入 blog/posts/ → 静态服务器上线\n```\n\n## 发布站提供什么\n\n- **Markdown 编辑器**：支持常用语法，实时预览\n- **文章管理**：草稿保存在浏览器 localStorage\n- **一键导出**：生成可直接上线的 `posts.json`\n\n## 文章格式\n\n```json\n{\n  \"slug\": \"my-post\",\n  \"title\": \"文章标题\",\n  \"date\": \"2026-11-18\",\n  \"tags\": [\"随笔\"],\n  \"cover\": \"#7c6cff\",\n  \"excerpt\": \"摘要……\",\n  \"content\": \"## Markdown 正文\"\n}\n```\n\n## 为什么不用数据库\n\n对于个人博客：\n\n1. 文章数量有限（几十到几百篇）\n2. JSON 文件随 Git 管理，天然有版本历史\n3. 静态托管便宜又稳定\n\n等真的需要评论、阅读量统计时，再接一个轻量后端也不迟。\n"
+  },
+  {
+    "slug": "about-this-design",
+    "title": "设计笔记：玻璃拟态与色彩系统",
+    "date": "2026-11-20",
+    "tags": ["设计", "UI"],
+    "cover": "#6366f1",
+    "excerpt": "记录这套界面背后的设计决策：设计令牌、主题色体系、深浅色适配，以及为什么选择玻璃拟态。",
+    "content": "## 风格锚点\n\nApple 小组件板 × Arc 浏览器起始页。\n\n关键词：**毛玻璃卡片**、**活着的背景**、**柔和的光**。\n\n## 色彩系统\n\n| 角色 | 深色 | 浅色 |\n| --- | --- | --- |\n| 背景 | `#0b0e17` | `#eef0f6` |\n| 前景 | `#eef0f7` | `#171a24` |\n| 强调 | `#7c6cff` | `#7c6cff` |\n\n主题色通过 CSS 变量切换：\n\n```css\nhtml[data-accent=\"rose\"] {\n  --accent: #f43f5e;\n  --accent-rgb: 244, 63, 94;\n}\n```\n\n## 玻璃拟态公式\n\n```css\n.glass {\n  background: rgba(255,255,255,.06);\n  backdrop-filter: blur(22px) saturate(1.3);\n  border: 1px solid rgba(255,255,255,.10);\n  border-radius: 24px;\n}\n```\n\n三个要素：**半透明底色**、**背景模糊**、**细描边**。少一个都会塌。\n\n## 可访问性\n\n- 文字对比度尽量保持在 4.5:1 以上\n- 交互元素有清晰的 hover / focus 反馈\n- 动效尊重 `prefers-reduced-motion`\n"
+  }
+]

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-mode="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理后台 · Yao Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/blog.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236366f1'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='800' fill='white' text-anchor='middle'>M</text></svg>">
+</head>
+<body>
+<div class="blog-bg"></div>
+
+<div class="shell">
+  <nav class="nav-bar">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">B</div>
+      <div>Yao Blog</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">文章</a>
+      <a href="write.html">写文章</a>
+      <a href="../index.html">个人主页</a>
+      <div id="user-slot"></div>
+    </div>
+  </nav>
+
+  <header class="hero" style="padding:14px 4px 22px">
+    <h1 style="font-size:clamp(26px,4vw,38px)">管理后台</h1>
+    <p style="font-size:15px">管理访客账户、评论发言与用户发布的文章。</p>
+  </header>
+
+  <main id="manage-root"></main>
+
+  <footer class="footer">
+    <div>© <span id="year">2026</span> Yao Space · <a href="index.html">博客首页</a></div>
+  </footer>
+</div>
+
+<script src="../config.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/account.js"></script>
+<script src="js/manage.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  try {
+    const p = JSON.parse(localStorage.getItem('yao-space-prefs') || '{}');
+    if (p.mode === 'light' || p.mode === 'dark') document.documentElement.dataset.mode = p.mode;
+    else if (p.mode === 'auto' && matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.mode = 'light';
+    if (p.accent) document.documentElement.dataset.accent = p.accent;
+  } catch (e) {}
+</script>
+</body>
+</html>

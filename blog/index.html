@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-mode="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yao Blog · 文章</title>
+<meta name="description" content="Yao 的个人博客 —— 文章预览与搜索">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/blog.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2314b8a6'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='800' fill='white' text-anchor='middle'>B</text></svg>">
+</head>
+<body>
+<div class="blog-bg"></div>
+
+<div class="shell">
+  <nav class="nav-bar">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">B</div>
+      <div>Yao Blog</div>
+    </a>
+    <div class="nav-links">
+      <a href="write.html">写文章</a>
+      <a href="../index.html">个人主页</a>
+      <div id="user-slot"></div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>写作、思考与记录</h1>
+    <p>这里是 Yao 的博客。关于前端开发、设计、工具与生活里那些值得被记住的瞬间。</p>
+
+    <div class="search-bar">
+      <input id="post-search" type="text" placeholder="搜索文章标题、标签、内容…" autocomplete="off">
+      <button id="post-search-btn">搜索</button>
+    </div>
+
+    <div class="tag-row" id="tag-row"></div>
+  </header>
+
+  <main class="post-grid" id="post-grid">
+    <div class="empty" style="grid-column:1/-1"><div class="big">⏳</div><div>加载文章中…</div></div>
+  </main>
+
+  <footer class="footer">
+    <div>© <span id="year">2026</span> Yao Space · <a href="../index.html">个人主页</a> · <a href="../admin/">发布站</a></div>
+    <div style="margin-top:8px" class="muted">Built with plain HTML / CSS / JS</div>
+  </footer>
+</div>
+
+<script src="js/markdown.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/account.js"></script>
+<script src="js/blog.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // 恢复主题
+  try {
+    const p = JSON.parse(localStorage.getItem('yao-space-prefs') || '{}');
+    if (p.mode === 'light' || p.mode === 'dark') document.documentElement.dataset.mode = p.mode;
+    else if (p.mode === 'auto' && matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.mode = 'light';
+    if (p.accent) document.documentElement.dataset.accent = p.accent;
+  } catch (e) {}
+  window.Blog.initList();
+</script>
+</body>
+</html>
